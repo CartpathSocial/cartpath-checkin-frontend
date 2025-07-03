@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cartpath Check-In</title>
+</head>
+<body>
+  <h1>Check In</h1>
+  <form id="checkin-form">
+    <label>Full Name: <input type="text" name="fullName" required /></label><br/>
+    <label>Email: <input type="email" name="email" required /></label><br/>
+    <label>Phone: <input type="tel" name="phone" required /></label><br/>
+    <label>First Visit? 
+      <select name="firstVisit" required>
+        <option value="">Select</option>
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+    </label><br/>
+    <label><input type="checkbox" name="agreeWaiver" required /> I agree to the waiver</label><br/>
+    <button type="submit">Check In</button>
+  </form>
+  <p id="response-msg"></p>
+
+  <script>
+    const form = document.getElementById('checkin-form');
+    const responseMsg = document.getElementById('response-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = {
+        fullName: formData.get('fullName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        firstVisit: formData.get('firstVisit') === 'true',
+        agreeWaiver: formData.get('agreeWaiver') === 'on',
+      };
+
+      try {
+        const res = await fetch('https://YOUR_BACKEND_URL/api/checkin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await res.json();
+        responseMsg.textContent = result.message || 'Unknown response';
+        responseMsg.style.color = result.success ? 'green' : 'red';
+      } catch (err) {
+        responseMsg.textContent = 'Network error';
+        responseMsg.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
