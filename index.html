@@ -10,53 +10,60 @@
     <label>Email: <input type="email" name="email" required /></label><br/>
     <label>Phone: <input type="tel" name="phone" required /></label><br/>
     <label>First Visit? 
-      <select name="firstVisit" required>
+      <select id="firstVisit" name="firstVisit" required>
         <option value="">Select</option>
         <option value="true">Yes</option>
         <option value="false">No</option>
       </select>
     </label><br/>
-    <label><input type="checkbox" name="agreeWaiver" required /> I agree to the waiver</label><br/>
+    
+    <div id="waiver-section" style="display:none;">
+      <label><input type="checkbox" name="agreeWaiver" required /> I agree to the waiver</label><br/>
+    </div>
+
     <button type="submit">Check In</button>
   </form>
   <p id="response-msg"></p>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-  const firstVisit = document.getElementById("firstVisit");
-  const waiverSection = document.getElementById("waiver-section");
-  const form = document.getElementById("checkin-form");
-  const responseMsg = document.getElementById("response-msg");
+      const firstVisit = document.getElementById("firstVisit");
+      const waiverSection = document.getElementById("waiver-section");
+      const form = document.getElementById("checkin-form");
+      const responseMsg = document.getElementById("response-msg");
 
-  firstVisit.addEventListener("change", () => {
-    waiverSection.style.display = firstVisit.value === "yes" ? "block" : "none";
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const res = await fetch("https://cartpath-checkin-backend.vercel.app/api/checkin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+      firstVisit.addEventListener("change", () => {
+        waiverSection.style.display = firstVisit.value === "true" ? "block" : "none";
       });
 
-      const result = await res.json();
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
 
-      if (res.ok) {
-        responseMsg.textContent = result.message || "Check-in successful!";
-        responseMsg.style.color = "green";
-      } else {
-        responseMsg.textContent = result.error || "Something went wrong. Please try again.";
-        responseMsg.style.color = "red";
-      }
+        try {
+          const res = await fetch("https://cartpath-checkin-backend.vercel.app/api/checkin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
 
-    } catch (error) {
-      responseMsg.textContent = "Network or server error.";
-      responseMsg.style.color = "red";
-    }
-  });
-});
+          const result = await res.json();
+
+          if (res.ok) {
+            responseMsg.textContent = result.message || "Check-in successful!";
+            responseMsg.style.color = "green";
+          } else {
+            responseMsg.textContent = result.error || "Something went wrong. Please try again.";
+            responseMsg.style.color = "red";
+          }
+
+        } catch (error) {
+          responseMsg.textContent = "Network or server error.";
+          responseMsg.style.color = "red";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
