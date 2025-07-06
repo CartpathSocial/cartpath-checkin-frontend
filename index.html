@@ -22,35 +22,41 @@
   <p id="response-msg"></p>
 
   <script>
-    const form = document.getElementById('checkin-form');
-    const responseMsg = document.getElementById('response-msg');
+    document.addEventListener("DOMContentLoaded", () => {
+  const firstVisit = document.getElementById("firstVisit");
+  const waiverSection = document.getElementById("waiver-section");
+  const form = document.getElementById("checkin-form");
+  const responseMsg = document.getElementById("response-msg");
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const data = {
-        fullName: formData.get('fullName'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        firstVisit: formData.get('firstVisit') === 'true',
-        agreeWaiver: formData.get('agreeWaiver') === 'on',
-      };
+  firstVisit.addEventListener("change", () => {
+    waiverSection.style.display = firstVisit.value === "yes" ? "block" : "none";
+  });
 
-      try {
-        const res = await fetch('https://YOUR_BACKEND_URL/api/checkin', {
-        const res = await fetch('cartpath-checkin-backend.vercel.app/api/checkin', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        const result = await res.json();
-        responseMsg.textContent = result.message || 'Unknown response';
-        responseMsg.style.color = result.success ? 'green' : 'red';
-      } catch (err) {
-        responseMsg.textContent = 'Network error';
-        responseMsg.style.color = 'red';
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch("https://cartpath-checkin-backend.vercel.app/api/checkin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        responseMsg.textContent = result.message || "Check-in successful!";
+        responseMsg.style.color = "green";
+      } else {
+        responseMsg.textContent = result.error || "Something went wrong. Please try again.";
+        responseMsg.style.color = "red";
       }
-    });
-  </script>
-</body>
-</html>
+
+    } catch (error) {
+      responseMsg.textContent = "Network or server error.";
+      responseMsg.style.color = "red";
+    }
+  });
+});
