@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cartpath Check-In</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -14,89 +15,47 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
 
     .container {
       text-align: center;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
     }
 
     h1 {
-      font-size: 2.5rem;
       margin-bottom: 24px;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    label {
-      font-size: 1rem;
-      text-align: left;
-    }
-
-    input, select, button {
-      padding: 10px 14px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 6px;
+      gap: 15px;
     }
 
     input, select {
-      background-color: #ffffff;
-      color: #000000;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
     }
 
     button {
+      padding: 12px;
+      font-size: 1em;
       background-color: #ffffff;
       color: #005837;
-      font-weight: bold;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-weight: bold;
     }
 
     button:hover {
-      background-color: #e0e0e0;
+      background-color: #ebe70e;
+      color: #005837;
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Cartpath Check-In</h1>
-    <form id="checkin-form">
-      <label for="fullName">Full Name:</label>
-      <input type="text" id="fullName" name="fullName" required>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" name="phone" required>
-
-      <label for="firstVisit">Is this your first visit?</label>
-      <select id="firstVisit" name="firstVisit" required>
-        <option value="">Select</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-
-      <label for="waiverSigned">Have you signed the waiver?</label>
-      <select id="waiverSigned" name="waiverSigned" required>
-        <option value="">Select</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-
-      <button type="submit">Check In</button>
-    </form>
-  </div>
-</body>
-</html>
+    .s
