@@ -1,69 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Cartpath Check-In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #005837;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    input, select, button {
+      padding: 10px 14px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+    }
+
+    input, select {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    button {
+      background-color: #ffffff;
+      color: #005837;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
 </head>
 <body>
-  <h1>Check In</h1>
-  <form id="checkin-form">
-    <label>Full Name: <input type="text" name="fullName" required /></label><br/>
-    <label>Email: <input type="email" name="email" required /></label><br/>
-    <label>Phone: <input type="tel" name="phone" required /></label><br/>
-    <label>First Visit? 
+  <div class="container">
+    <h1>Cartpath Check-In</h1>
+    <form id="checkin-form">
+      <label for="fullName">Full Name:</label>
+      <input type="text" id="fullName" name="fullName" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label for="firstVisit">Is this your first visit?</label>
       <select id="firstVisit" name="firstVisit" required>
         <option value="">Select</option>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
       </select>
-    </label><br/>
-    
-    <div id="waiver-section" style="display:none;">
-      <label><input type="checkbox" name="agreeWaiver" required /> I agree to the waiver</label><br/>
-    </div>
 
-    <button type="submit">Check In</button>
-  </form>
-  <p id="response-msg"></p>
+      <label for="waiverSigned">Have you signed the waiver?</label>
+      <select id="waiverSigned" name="waiverSigned" required>
+        <option value="">Select</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const firstVisit = document.getElementById("firstVisit");
-      const waiverSection = document.getElementById("waiver-section");
-      const form = document.getElementById("checkin-form");
-      const responseMsg = document.getElementById("response-msg");
-
-      firstVisit.addEventListener("change", () => {
-        waiverSection.style.display = firstVisit.value === "true" ? "block" : "none";
-      });
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        try {
-          const res = await fetch("https://cartpath-checkin-backend.vercel.app/api/checkin", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-          });
-
-          const result = await res.json();
-
-          if (res.ok) {
-            responseMsg.textContent = result.message || "Check-in successful!";
-            responseMsg.style.color = "green";
-          } else {
-            responseMsg.textContent = result.error || "Something went wrong. Please try again.";
-            responseMsg.style.color = "red";
-          }
-
-        } catch (error) {
-          responseMsg.textContent = "Network or server error.";
-          responseMsg.style.color = "red";
-        }
-      });
-    });
-  </script>
+      <button type="submit">Check In</button>
+    </form>
+  </div>
 </body>
 </html>
