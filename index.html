@@ -70,7 +70,8 @@
       };
 
       try {
-        const res = await fetch("https://cartpath-checkin-backend.vercel.app/api", {
+        // Updated fetch URL to point to backend api/checkin
+        const res = await fetch("https://cartpath-checkin-backend-o6j03i7ve-nathan-gairhans-projects.vercel.app/api/checkin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
