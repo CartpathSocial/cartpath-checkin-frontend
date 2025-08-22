@@ -29,6 +29,7 @@
       margin-top: 0.5rem;
       border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
     button {
       background: #2c7a7b;
@@ -70,12 +71,10 @@
       };
 
       try {
-        // Updated fetch URL to point to backend api/checkin
+        // Only change is here: pointing to /api/checkin
         const res = await fetch("https://cartpath-checkin-backend-o6j03i7ve-nathan-gairhans-projects.vercel.app/api/checkin", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
         });
 
